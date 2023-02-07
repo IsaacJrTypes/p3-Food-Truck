@@ -1,1 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+}
 
+body {
+    background-color: red;
+    font-family: black;
+}
+
+  
+
+header {
+    padding:0px 0;
+    width: 200px;
+   
+    
+}
