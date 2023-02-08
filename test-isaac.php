@@ -41,13 +41,6 @@ $menuItems[]= $items;
 $items = new Item(2,'Pike Place Bowl','Salmon, Sweet Onion, Cucumber, Sesame Seeds, House Shoyu, Edamame, Crunchy Onion',14.95);
 $menuItems[]= $items;
 
-//Grab form
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo '<pre>';
-    echo var_dump($_POST);
-    echo var_dump($menuItems);
-    echo '</pre>';
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +78,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?>
     </div>
     <button type="submit">Submit</button>
+    <button type="reset" onClick="window.location.href='<?= $_SERVER['PHP_SELF'] ?>'" >Reset</button>
     </form>
+    <?php
+    //Grab form
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        echo '<pre>';
+        echo var_dump($_POST);
+        echo var_dump($menuItems);
+        echo '</pre>';
+    }
+    ?>
 
 </body>
 </html>
