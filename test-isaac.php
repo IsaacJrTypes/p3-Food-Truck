@@ -1,4 +1,11 @@
 <?php
+/*
+Need to figure out
+- how to append addons to item using html with php
+
+*/
+
+
 //Class Item
 class Item
 {
@@ -15,11 +22,9 @@ class Item
         $this->description = $description;
         $this->price = $price;
     }
-
     public function addon($addon){
         $this->addon[] = $addon;
     }
-
 }
 
 //save new instance to variable
@@ -33,7 +38,7 @@ $menuItems[]= $items;
 $items = new Item(1,'Hawaiian Classic Bowl','Ahi Tuna, Sweet Onion Hijiki (Seaweed), Scallion, House Shoyu Seaweed Salad, Sesame Seeds',13.95);
 $menuItems[]= $items;
 
-$items = new Item(2,'Pike Place Bowl','Salmon, Sweet Onion, Cucumber, Sesame Seeds, House Shoyu, Edamame, Crunchy Onion',13.95);
+$items = new Item(2,'Pike Place Bowl','Salmon, Sweet Onion, Cucumber, Sesame Seeds, House Shoyu, Edamame, Crunchy Onion',14.95);
 $menuItems[]= $items;
 
 //Grab form
@@ -57,12 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="card-container">
-        <?php foreach( $menuItems as $item) {
+        <?php 
+        //grabs $menuItem array -> sets item
+        foreach( $menuItems as $item) {
         echo '<div class="card">
             <h2>'. $item->name .'</h2>
             <p>'. $item->description .'</p>
             <label>Quantity</label>
-            <select name="quantity'.$item->ID.'">
+            <select name="quantity-'.$item->ID.'">
                 <option value="">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -71,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="5">5</option>
             </select>     
         </div>';
+        /*
+        - Used itemID to generate new post key with quantity-ItemID. 
+        */
         }
         ?>
     </div>
