@@ -28,17 +28,20 @@ class Item
         $this->price = $price;
     }
 
-    public function addon($addon){
+    public function addon($addon)
+    {
         foreach($addon as $item) {
         $this->addon[] = $item;
         }
     }
 
-    public function setQuant($num) {
+    public function setQuant($num) 
+    {
         $this->quantity = (int) $num;
+    
     }
-
-    public function getQuant() {
+    public function getQuant() 
+    {
         return $this->quantity;
     }
 }
@@ -108,8 +111,9 @@ $menuItems[]= $items;
         //if post item is set
         for ( $index=0; $index < count($menuItems); $index++){
         if(!empty($_POST["quantity-{$index}"])) {
-            //add addon to item object
+            //sets quantity to item object thru method
             $menuItems["{$index}"]->setQuant($_POST["quantity-{$index}"]);
+            //adds addon to item object tru method
             if(!empty($_POST["addon-{$index}"])) {
             $menuItems["{$index}"]->addon($_POST["addon-{$index}"]);
             }
@@ -119,7 +123,7 @@ $menuItems[]= $items;
     }
         echo '<pre>';
         echo var_dump($_POST);
-        echo '<p>Post above, $menuItems array below</p>';
+        echo '##### Post array above, $menuItems obj array below #####<br>';
         echo var_dump($menuItems);
         echo '</pre>';
     }
