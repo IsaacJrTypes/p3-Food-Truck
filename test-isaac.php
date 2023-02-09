@@ -1,7 +1,11 @@
 <?php
 /*
 Need to figure out
-- how to append addons to item using html with php
+[x] how to append addons to item using html with php
+[ ] create cart class
+    [] subtotal func
+    [] tax func
+    [] total func
 
 */
 
@@ -13,6 +17,7 @@ class Item
     public $name = '';
     public $description = '';
     public $price = 0;
+    public $quantity = 0;
     public $addon = array();
 
     public function __construct($ID, $name, $description, $price)
@@ -22,10 +27,19 @@ class Item
         $this->description = $description;
         $this->price = $price;
     }
+
     public function addon($addon){
         foreach($addon as $item) {
         $this->addon[] = $item;
         }
+    }
+
+    public function setQuant($num) {
+        $this->quantity = (int) $num;
+    }
+
+    public function getQuant() {
+        return $this->quantity;
     }
 }
 
@@ -82,11 +96,7 @@ $menuItems[]= $items;
             </div>     
         </div>
         
-        <?php }
-        // -Used itemID to generate new post key with quantity-ItemID. ?>
-        
-        
-        
+        <?php } // -Used itemID to generate new post key with quantity-ItemID. ?>
     
     </div>
     <button type="submit">Submit</button>
@@ -94,12 +104,15 @@ $menuItems[]= $items;
     </form>
     <?php
     //Grab form
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //if post item is set
-        foreach($menuItems as $index => $item){
+        for ( $index=0; $index < count($menuItems); $index++){
         if(!empty($_POST["quantity-{$index}"])) {
             //add addon to item object
+            $menuItems["{$index}"]->setQuant($_POST["quantity-{$index}"]);
+            if(!empty($_POST["addon-{$index}"])) {
             $menuItems["{$index}"]->addon($_POST["addon-{$index}"]);
+            }
         } else {
             $_POST["quantity-{$index}"] = null;
         }
