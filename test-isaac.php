@@ -76,12 +76,12 @@ $menuItems[]= $items;
     <div class="card-container">
         <?php 
         //grabs $menuItem array -> sets item
-        foreach( $menuItems as $item) {?>
+        foreach( $menuItems as $key => $item) {?>
         <div class="card">
             <h2><?=$item->name?></h2>
             <p><?= $item->description ?></p>
             <label>Quantity</label>
-            <select name="quantity-<?= $item->ID?>">
+            <select name="quantity-<?=$key?>">
                 <option value="">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -90,11 +90,11 @@ $menuItems[]= $items;
                 <option value="5">5</option>
             </select>
             <div class="addon">
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="tuna">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="tuna">
                 <label for="addon">Add Tuna</label>
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="rice">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="rice">
                 <label for="addon">Add Rice</label>
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="onion">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="onion">
                 <label for="addon">Add Onions</label>
             </div>     
         </div>
