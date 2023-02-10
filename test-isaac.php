@@ -1,8 +1,11 @@
 <?php
 /*
 Need to figure out
-- how to append addons to item using html with php
-
+[x] how to append addons to item using html with php
+[ ] create cart class
+    [] subtotal func
+    [] tax func
+    [] total func
 */
 
 
@@ -13,6 +16,7 @@ class Item
     public $name = '';
     public $description = '';
     public $price = 0;
+    public $quantity = 0;
     public $addon = array();
 
     public function __construct($ID, $name, $description, $price)
@@ -22,10 +26,22 @@ class Item
         $this->description = $description;
         $this->price = $price;
     }
-    public function addon($addon){
+
+    public function addon($addon)
+    {
         foreach($addon as $item) {
         $this->addon[] = $item;
         }
+    }
+
+    public function setQuant($num) 
+    {
+        $this->quantity = (int) $num;
+    
+    }
+    public function getQuant() 
+    {
+        return $this->quantity;
     }
 }
 
@@ -59,12 +75,12 @@ $menuItems[]= $items;
     <div class="card-container">
         <?php 
         //grabs $menuItem array -> sets item
-        foreach( $menuItems as $item) {?>
+        foreach( $menuItems as $key => $item) {?>
         <div class="card">
             <h2><?=$item->name?></h2>
             <p><?= $item->description ?></p>
             <label>Quantity</label>
-            <select name="quantity-<?= $item->ID?>">
+            <select name="quantity-<?=$key?>">
                 <option value="">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -73,20 +89,16 @@ $menuItems[]= $items;
                 <option value="5">5</option>
             </select>
             <div class="addon">
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="tuna">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="tuna">
                 <label for="addon">Add Tuna</label>
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="rice">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="rice">
                 <label for="addon">Add Rice</label>
-                <input type="checkbox" name="addon-<?= $item->ID?>[]" value="onion">
+                <input type="checkbox" name="addon-<?= $key?>[]" value="onion">
                 <label for="addon">Add Onions</label>
             </div>     
         </div>
         
-        <?php }
-        // -Used itemID to generate new post key with quantity-ItemID. ?>
-        
-        
-        
+        <?php } // -Used itemID to generate new post key with quantity-ItemID. ?>
     
     </div>
     <button type="submit">Submit</button>
@@ -94,19 +106,23 @@ $menuItems[]= $items;
     </form>
     <?php
     //Grab form
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //if post item is set
-        foreach($menuItems as $index => $item){
+        for ( $index=0; $index < count($menuItems); $index++){
         if(!empty($_POST["quantity-{$index}"])) {
-            //add addon to item object
+            //sets quantity to item object thru method
+            $menuItems["{$index}"]->setQuant($_POST["quantity-{$index}"]);
+            //adds addon to item object tru method
+            if(!empty($_POST["addon-{$index}"])) {
             $menuItems["{$index}"]->addon($_POST["addon-{$index}"]);
+            }
         } else {
             $_POST["quantity-{$index}"] = null;
         }
     }
         echo '<pre>';
         echo var_dump($_POST);
-        echo '<p>Post above, $menuItems array below</p>';
+        echo '##### Post array above, $menuItems obj array below #####<br>';
         echo var_dump($menuItems);
         echo '</pre>';
     }
