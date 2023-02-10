@@ -28,30 +28,54 @@ class Item
         $this->price = $price;
     }
 
-    public function addon($addon)
+    public function getID() 
+    {
+        return $this->ID;
+    }
+
+    public function getName() 
+    {
+        return $this->name;
+    }
+
+    public function getDescription() 
+    {
+        return $this->description;
+    }
+
+    public function getPrice() 
+    {
+        return $this->price;
+    }
+
+    public function getAddon()
+    {
+        return $this->addon;
+    }
+
+    public function setAddon($addon)
     {
         foreach($addon as $item) {
         $this->addon[] = $item;
         }
     }
-
+    
     public function setQuant($num) 
-    {
+    {   // hint typing: forces storage to int
         $this->quantity = (int) $num;
     
     }
+
     public function getQuant() 
     {
         return $this->quantity;
     }
+
 }
 
 //save new instance to variable
 $items = new Item(0,'Spicy Ahi Bowl','Spicy Ahi Tuna, Cucumber, Sweet Onion, Scallion, House Shoyu
 Spicy Aioli, Masago ,Pickled Ginger',12.95);
-// $item->addon('Tuna');
-// $item->addon('Rice');
-// $item->addon('Onions');
 $menuItems[]= $items;
 
 $items = new Item(1,'Hawaiian Classic Bowl','Ahi Tuna, Sweet Onion Hijiki (Seaweed), Scallion, House Shoyu Seaweed Salad, Sesame Seeds',13.95);
@@ -78,8 +102,8 @@ $menuItems[]= $items;
         //grabs $menuItem array -> sets item
         foreach( $menuItems as $key => $item) {?>
         <div class="card">
-            <h2><?=$item->name?></h2>
-            <p><?= $item->description ?></p>
+            <h2><?=$item->getName()?></h2>
+            <p><?= $item->getDescription() ?></p>
             <label>Quantity</label>
             <select name="quantity-<?=$key?>">
                 <option value="">0</option>
@@ -115,7 +139,7 @@ $menuItems[]= $items;
             $menuItems["{$index}"]->setQuant($_POST["quantity-{$index}"]);
             //adds addon to item object tru method
             if(!empty($_POST["addon-{$index}"])) {
-            $menuItems["{$index}"]->addon($_POST["addon-{$index}"]);
+            $menuItems["{$index}"]->setAddon($_POST["addon-{$index}"]);
             }
         } else {
             $_POST["quantity-{$index}"] = null;
